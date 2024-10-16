@@ -1,0 +1,5 @@
+{
+    "allUsers":"https://jsonplaceholder.typicode.com/users",
+    "allPosts":"https://jsonplaceholder.typicode.com/posts",
+    "postsForUser":"https://jsonplaceholder.typicode.com/posts?userId="
+}
