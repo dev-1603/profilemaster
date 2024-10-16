@@ -17,6 +17,13 @@
     post: Post
   }>()
 
+
+  /**
+   * Emits an event when the card is clicked.
+   *
+   * @event cardClicked - The event emitted when the card is clicked.
+   * @param {Post} post - The post associated with the clicked card.
+   */
   const emit = defineEmits<{(e: 'cardClicked', post: Post): void;
   }>()
 

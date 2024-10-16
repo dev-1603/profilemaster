@@ -15,7 +15,3 @@
     items: Array<{ title: string, disabled?: boolean, href?: string }>
   }>()
 </script>
-
-<style scoped>
-/* Add any custom styles here */
-</style>

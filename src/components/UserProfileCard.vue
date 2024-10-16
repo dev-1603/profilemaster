@@ -1,7 +1,6 @@
 <template>
   <v-card class="mx-auto my-4 " max-width="400">
     <slot>
-      <!-- Default content if no slot content is provided -->
       <v-card-title>
         <slot name="name">
           {{ user.name }}

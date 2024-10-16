@@ -19,7 +19,6 @@
 
 <script setup>
   import { mdiArrowRight } from '@mdi/js'
-  import profileImage from '@/assets/Person.svg'
   import { useUserStore } from '@/stores'
   import { onBeforeRouteLeave, useRoute } from 'vue-router'
   import { computed, onMounted } from 'vue'
@@ -34,6 +33,11 @@
    */
   const userDetails = computed(() => store.getSelectedUser)
 
+  /**
+   * Lifecycle hook to fetch the user details when the component is mounted.
+   * This hook is triggered when the component is mounted and fetches the user details
+   * from the store based on the user ID in the route parameters.
+   */
   onMounted(async () => {
     try {
       if (route.params.userid && !userDetails.value?.id) {
@@ -45,10 +49,22 @@
     }
   })
 
+  /**
+   * Lifecycle hook to clear the selected user details when leaving the route.
+   * This hook is triggered when the user navigates away from the current route
+   * and clears the selected user details from the store.
+   */
   onBeforeRouteLeave(() => {
     store.clearSelectedUser()
   })
 
+  /**
+   * Function to navigate to the detailed post view.
+   * This function is triggered when the user clicks on a post preview card
+   * and navigates to the detailed post view based on the post ID.
+   *
+   * @param {Object} post - The post object containing the post details.
+   */
   const showPost = post => {
     router.push(`/${route.params.userid}/posts/${post.id}`)
   }

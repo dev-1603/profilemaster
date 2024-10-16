@@ -11,9 +11,7 @@
           <PostPreview class="tw-m-4  hover:tw-bg-blue-200" :post="{...item, author:getUserDetails?.name}" @card-clicked="showPost" />
         </template>
       </v-virtual-scroll>
-      <!-- <v-col v-for="post in getUserPosts" :key="post.id" cols="12">
-        <PostPreview :post="{...post, author:getUserDetails?.name}" />
-      </v-col> -->
+
     </v-row>
   </v-container>
 </template>
@@ -35,6 +33,21 @@
   const getUserPosts = computed(() => userPosts.value)
   const getUserDetails = computed(() => userStore.getSelectedUser)
 
+  /**
+   * Fetches data from the provided API endpoint and updates the component's state.
+   *
+   * @param {string} endpoint - The API endpoint to fetch data from.
+   * @returns {Promise<void>} - A promise that resolves when the data has been successfully fetched and the state updated.
+   *
+   * @example
+   * fetchData('/api/data')
+   *   .then(() => {
+   *     console.log('Data fetched successfully');
+   *   })
+   *   .catch((error) => {
+   *     console.error('Error fetching data:', error);
+   *   });
+   */
   onMounted(async () => {
     try {
       if (userId) {
@@ -45,6 +58,11 @@
     }
   })
 
+  /**
+   * Navigates to the post detail page when a post is clicked.
+   *
+   * @param {Object} post - The post object that was clicked.
+   */
   const showPost = post => {
     router.push(`/${route.params.userid}/posts/${post.id}`)
   }

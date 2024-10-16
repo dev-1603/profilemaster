@@ -12,7 +12,6 @@ export function useStoreData () {
 
   const state = reactive(Store === 'vuex' ? { ...store.state.users } : { ...store.$state })
 
-  // const actions = Store === 'vuex' ? { ...store._actions } : { ...store.actions }
 
   return {
     getters,

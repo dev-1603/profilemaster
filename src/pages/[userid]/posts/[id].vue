@@ -5,7 +5,7 @@
       <v-col cols="12">
         <div class="tw-mb-4">
           <h1 class="tw-text-3xl tw-font-bold tw-mb-2">{{ getPostDetails.title }}</h1>
-          <p  v-if="getAuthor" class="tw-text-right tw-text-gray-500 tw-text-sm">Author: {{ store.getSelectedUser && store.getSelectedUser.name }}</p>
+          <p v-if="getAuthor" class="tw-text-right tw-text-gray-500 tw-text-sm">Author: {{ store.getSelectedUser && store.getSelectedUser.name }}</p>
         </div>
         <div class="tw-mb-4" v-html="getPostDetails.body" />
       </v-col>
@@ -27,6 +27,5 @@
   onMounted(async () => {
     const post = await store.fetchSinglePost(postId, userId)
     postdetails.value = post
-    // store.fetchUser(userId)
   })
 </script>
