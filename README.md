@@ -80,6 +80,9 @@ To set up the development environment for this repository, follow these steps:
   npm run format
   ```
 
+## To do 
+- Adding Skeleton loader
+
 
 ## Contributing
 
