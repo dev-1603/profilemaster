@@ -1,19 +1,34 @@
 <!-- UserDetail.vue -->
 <template>
   <v-container>
-    <UserDetail v-if="userDetails?.id" :user="userDetails" />
+    <UserDetail v-if="userDetails?.id" :user="userDetails"  v-model:postmodel="togglePost"/>
 
-    <h2 class="tw-ml-4 tw-text-2xl tw-font-bold">Posts</h2>
-    <v-col v-for="post in userDetails.posts" :key="post.id" cols="12">
-      <PostPreview class="hover:tw-bg-blue-200" :post="{...post, author: userDetails.name}" @card-clicked="showPost" />
+    <div v-show="togglePost">
+      <h2 class="tw-ml-4 tw-text-2xl tw-font-bold">Posts</h2>
+      <div v-if="userDetails.posts?.length && togglePost">
+        <v-col v-for="post in userDetails.posts?.slice(0,5)" :key="post.id" cols="12">
+          <PostPreview class="hover:tw-bg-blue-200" :post="{...post, author: userDetails.name}" @card-clicked="showPost" />
 
-    </v-col>
-    <router-link v-if="userDetails.posts && userDetails.posts?.length > 5" :to="`/${userDetails.id}/posts`">
-      <v-btn class="tw-w-full boer tw-p-4 hover:tw-bg-blue-200" variant="outlined">
-        Show all Posts
-        <v-icon :icon="`mdiSvg:${mdiArrowRight}`" />
-      </v-btn>
-    </router-link>
+        </v-col>
+
+      </div>
+      <dir v-else-if="togglePost">
+        <v-col v-for="post in 5" :key="post" cols="12">
+          <v-skeleton-loader
+            class="mx-auto border tw-mb-6"
+            max-width="full"
+            type="article"
+          />
+        </v-col>
+      </dir>
+      <router-link v-if="userDetails.posts && userDetails.posts?.length > 5" :to="`/${userDetails.id}/posts`">
+        <v-btn class="tw-w-full boer tw-p-4 hover:tw-bg-blue-200" variant="outlined">
+          Show all Posts
+          <v-icon :icon="`mdiSvg:${mdiArrowRight}`" />
+        </v-btn>
+      </router-link>
+
+    </div>
   </v-container>
 </template>
 
@@ -26,6 +41,7 @@
 
   const route = useRoute()
   const store = useUserStore()
+  const togglePost = ref(true)
 
   /**
    * Computed property to get the selected user details from the store.
@@ -43,7 +59,6 @@
       if (route.params.userid && !userDetails.value?.id) {
         await store.selectUser({ id: route.params.userid })
       }
-      console.log('userDetails', store.getSelectedUser)
     } catch (error) {
       console.error(error)
     }

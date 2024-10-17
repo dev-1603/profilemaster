@@ -26,11 +26,20 @@
         </v-card-text>
       </v-col>
     </v-row>
+    <v-col class="tw-flex tw-justify-center tw-items-center" cols="4">
+      <v-switch v-model="showPost">
+        <template #label>
+          <span class="tw-text-grey-800 tw-font-semibold">{{ showPost? 'Toggle to Hide Posts': 'Toggle to Show Post' }}
+          </span>
+        </template>
+      </v-switch>
+
+    </v-col>
   </v-card>
 </template>
 
 <script setup lang="ts">
-  import { computed, defineProps } from 'vue'
+  import { computed, defineProps, ref } from 'vue'
   import profileImage from '@/assets/Person.svg'
 
   const props = defineProps<{
@@ -58,7 +67,16 @@
         bs: string;
       }
     }
+    postmodel:boolean
   }>()
+
+  const emits = defineEmits(['togglePost', 'update:postmodel'])
+
+  const showPost = computed({
+    get: () => props.postmodel,
+    set: value => emits('update:postmodel', value),
+  })
+  ref(false)
 
   /**
    * Fetches data from the provided API endpoint.

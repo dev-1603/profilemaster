@@ -1,11 +1,12 @@
 import api from './data/apiList.json'
 import { defineStore } from 'pinia'
-import { PostsByUserId, State } from '../typedef/storeType'
+import { PostsByUserId, State, User } from '../typedef/storeType'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 const allPostByuserId:PostsByUserId = new Map()
 export const useUserStore = defineStore('User', () => {
   const router = useRouter()
+  const filteredUsers:any = ref([])
   const state = reactive<State>({
     allusers: [],
     allPostByuserId,
@@ -13,7 +14,7 @@ export const useUserStore = defineStore('User', () => {
     userDetails: {},
   })
 
-  const getUsers = computed(() => state.allusers)
+  const getUsers = computed(() => filteredUsers.value?.length ? filteredUsers.value : state.allusers)
 
   /**
    * Fetches posts by a given user ID. If the user ID is not provided, it logs an error,
@@ -115,6 +116,7 @@ export const useUserStore = defineStore('User', () => {
         posts,
       }
       state.userDetails = userData
+      return userData
     } catch (error: any) {
       console.error('Error selecting user:', error)
       throw new Error('Unable to select user')
@@ -166,6 +168,10 @@ export const useUserStore = defineStore('User', () => {
     }
   }
 
+  const searchUsers = (searchTerm: string = '') => {
+    filteredUsers.value = state.allusers.filter((user: User) => user.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  }
+
   return {
     ...toRefs(state),
     getUsers,
@@ -176,6 +182,7 @@ export const useUserStore = defineStore('User', () => {
     getSelectedUser,
     clearSelectedUser,
     fetchSinglePost,
+    searchUsers,
     getters: {
       getUsers,
     },
@@ -186,6 +193,7 @@ export const useUserStore = defineStore('User', () => {
       selectUser,
       clearSelectedUser,
       fetchSinglePost,
+      searchUsers,
     },
   }
 })
