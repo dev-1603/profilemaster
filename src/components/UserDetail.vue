@@ -4,7 +4,6 @@
       <v-col class="tw-flex tw-justify-center tw-items-center" cols="4">
         <v-avatar class="tw-border-2 " size="150">
           <v-img class="tw-text-white align-end tw-border-2 tw-rounded-full" height="200px" :src="user?.profileImage ?? profileImage" />
-          <!-- <img ::src="user?.profileImage ?? profileImage" alt="User Image"> -->
         </v-avatar>
       </v-col>
       <v-col cols="8">
@@ -27,12 +26,20 @@
         </v-card-text>
       </v-col>
     </v-row>
+    <v-col class="tw-flex tw-justify-center tw-items-center" cols="4">
+      <v-switch v-model="showPost">
+        <template #label>
+          <span class="tw-text-grey-800 tw-font-semibold">{{ showPost? 'Toggle to Hide Posts': 'Toggle to Show Post' }}
+          </span>
+        </template>
+      </v-switch>
+
+    </v-col>
   </v-card>
 </template>
 
 <script setup lang="ts">
-  import { computed, defineProps } from 'vue'
-  // import { mdiArrowRight } from '@mdi/js'
+  import { computed, defineProps, ref } from 'vue'
   import profileImage from '@/assets/Person.svg'
 
   const props = defineProps<{
@@ -60,8 +67,24 @@
         bs: string;
       }
     }
+    postmodel:boolean
   }>()
 
+  const emits = defineEmits(['togglePost', 'update:postmodel'])
+
+  const showPost = computed({
+    get: () => props.postmodel,
+    set: value => emits('update:postmodel', value),
+  })
+  ref(false)
+
+  /**
+   * Fetches data from the provided API endpoint.
+   *
+   * @param {string} url - The URL of the API endpoint to fetch data from.
+   * @returns {Promise<Object>} - A promise that resolves to the data fetched from the API.
+   * @throws {Error} - Throws an error if the fetch operation fails.
+   */
   const formattedAddress = computed(() => {
     return `${props.user?.address?.street}, ${props.user?.address?.city}, ${props.user?.address?.zipcode}`
   })

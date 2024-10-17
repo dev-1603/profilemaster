@@ -80,6 +80,10 @@ To set up the development environment for this repository, follow these steps:
   npm run format
   ```
 
+## Important Note
+
+I have used Pinia for state management instead of Vuex due to some reactivity issues with Vuex getters when used with the Composition API. However, if you would like to check the implementation, you can see the folder `vuexstores`.
+
 
 ## Contributing
 
